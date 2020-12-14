@@ -30,7 +30,7 @@ app.post("/", function(req, res){
         }
       }
     ]
-  }
+  };
 
   var jsondata = JSON.stringify(data);
 
@@ -43,13 +43,20 @@ app.post("/", function(req, res){
 
   request(option, function(error, response, body){
     if (error) {
-      console.log(error);
-    }
-    else {
-      console.log(response.statusCode);
+      res.sendFile(__dirname + "/failure.html");
+    } else {
+      if ( response.statusCode === 200 ) {
+        res.sendFile(__dirname + "/success.html");
+      } else {
+        res.sendFile(__dirname + "/failure.html");
+      }
     }
   });
 
+});
+
+app.get("/failure",function(req, res){
+  res.redirect("/");
 });
 
 app.listen(3000, function(){
